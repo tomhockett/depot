@@ -7,10 +7,13 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 Product.delete_all
 
-images = %w[7apps.jpg adrpo.jpg dcbang.jpg
-            lorem.jpg rails.png ruby.jpg]
+images = Dir.glob('app/assets/images/*')
+            .collect { |x| x.gsub('app/assets/images/', '') }
+images_to_skip = ['rails.png', 'logo.svg', '7apps.jpg']
 
 images.each do |img|
+  next if images_to_skip.include?(img)
+
   Product.create!(title: FFaker::Book.title,
                   description:
                     %(<p>
